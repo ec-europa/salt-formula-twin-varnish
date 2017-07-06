@@ -3,7 +3,7 @@ pipeline:
     image: docker
     commands:
       - docker build --rm -t fpfis/twin-varnish-${DRONE_COMMIT_SHA} .
-      - docker run --rm -i fpfis/twin-varnish-${DRONE_COMMIT_SHA} twin-varnish --version
+      - docker run --rm -i fpfis/twin-varnish-${DRONE_COMMIT_SHA} varnishd -V
       - docker run -d fpfis/twin-varnish-${DRONE_COMMIT_SHA}|tr -d '\n' > .container-id
       - sleep 5
       - docker exec -i $(cat .container-id) /tests/test.sh
