@@ -1,0 +1,48 @@
+Services:
+  WebService_1:
+    UnixUser: nobody
+    SystemName: default
+    Servers:
+      Server_1:
+        Fqdn: web01.localdomain
+      Server_2:
+        Fqdn: web02.localdomain
+    Type: web
+    Port: 8404
+  WebService_2:
+    UnixUser: nobody
+    SystemName: default
+    Servers:
+      Server_1:
+        Fqdn: web01.localdomain
+      Server_2:
+        Fqdn: web02.localdomain
+    Type: web
+    Port: 8405
+  TwinVarnish_1:
+    UnixUser: nobody
+    Name: VarnishTwinNode
+    Type: twin-varnish
+    AdminPasswordSecret:
+      Value: admin_pass
+    MonitoringPasswordSecret:
+      Value: monitoring_pass
+    Servers:
+      Server_0:
+        Fqdn: web01.localdomain
+      Server_1:
+        Fqdn: web02.localdomain
+
+WebSites:
+  Website_1:
+    Hostname: domain1.localdomain
+    Path: /uri_site_1
+    ServiceWeb: WebService_1
+  Website_2:
+    Hostname: domain1.localdomain
+    Path: /uri_site_2
+    ServiceWeb: WebService_2
+  Website_3:
+    Hostname: domain1.localdomain
+    Path: /uri_site_2
+    ServiceWeb: WebService_1
