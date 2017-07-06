@@ -17,7 +17,6 @@ varnish-stack-installed:
     - require:
       - file: varnish-ensure-fpfis-repo
 
-
 /var/lib/varnish:
   file.directory:
     - user: {{ Service.UnixUser }}
@@ -25,5 +24,16 @@ varnish-stack-installed:
     - require:
       - pkg: varnish-stack-installed
 
+/etc/varnish/twin:
+  file.recurse:
+    template: jinja
+    source: salt://twin-varnish/vcl
+    clean: True
+
+/etc/varnish/default.vcl:
+  file.line:
+    - content: include "twin/default.vcl";
+    - mode: ensure
+    - location: end
 
 {% endfor %}
