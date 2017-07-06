@@ -26,9 +26,9 @@ varnish-stack-installed:
 
 /etc/varnish/twin:
   file.recurse:
-    template: jinja
-    source: salt://twin-varnish/vcl
-    clean: True
+    - template: jinja
+    - source: salt://twin-varnish/vcl
+    - clean: True
 
 /etc/varnish/default.vcl:
   file.line:

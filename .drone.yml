@@ -21,6 +21,18 @@ pipeline:
     when:
       status: [ failure, success ]
 
+  slack-notify-test:
+    image: plugins/slack
+    secrets: [ slack_webhook ]
+    channel: ci
+    username: fpfisbot
+    icon_url: https://avatars0.githubusercontent.com/u/23079543?v=3&s=400
+    when:
+      event: push
+      status: success
+    template: >
+      Salt formula twin-varnish@${DRONE_BRANCH} tests <{{build.link}}|passed>.
+
   build-and-push-image:
     image: plugins/docker
     repo: fpfis/twin-varnish
@@ -31,3 +43,14 @@ pipeline:
     when:
       event: tag
 
+  slack-notify-tag:
+    image: plugins/slack
+    secrets: [ slack_webhook ]
+    channel: ci
+    username: fpfisbot
+    icon_url: https://avatars0.githubusercontent.com/u/23079543?v=3&s=400
+    when:
+      event: tag
+      status: success
+    template: >
+      Docker image fpfis/twin-varnish:${DRONE_TAG} <{{build.link}}|published> on DockerHub
