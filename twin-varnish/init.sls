@@ -31,9 +31,7 @@ varnish-stack-installed:
     - clean: True
 
 /etc/varnish/default.vcl:
-  file.line:
-    - content: include "twin/default.vcl";
-    - mode: ensure
-    - location: end
+  file.append:
+    - text: include "twin/default.vcl";
 
 {% endfor %}
